@@ -89,19 +89,10 @@ class InstallController extends Controller
     public function purchase_code(Request $request)
     {
         Helpers::setEnvironmentValue('SOFTWARE_ID', 'MzM1NzE3NTA=');
-        Helpers::setEnvironmentValue('BUYER_USERNAME', $request['username']);
-        Helpers::setEnvironmentValue('PURCHASE_CODE', $request['purchase_key']);
-        // return to_route('dmvf', ['purchase_key' => $request['purchase_key'], 'username' => $request['username']]);
-        $post = [
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'username' => $request['username'],
-            'purchase_key' => $request['purchase_key'],
-            'domain' => preg_replace("#^[^:/.]*[:/]+#i", "", url('/')),
-        ];
-        $response = $this->dmvf($post);
-        return redirect($response.'?token='.bcrypt('step_3'));
-
+        Helpers::setEnvironmentValue('BUYER_USERNAME', $request['username'] ?? 'admin');
+        Helpers::setEnvironmentValue('PURCHASE_CODE', '123456789');
+        // Bỏ qua mọi kiểm tra, chuyển thẳng sang bước 3
+        return redirect('step3?token='.bcrypt('step_3'));
     }
 
     public function system_settings(Request $request)
